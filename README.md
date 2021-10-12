@@ -11,7 +11,11 @@ Cada arma en el juego tiene diferentes características y cantidades de uso. Por
 Los proyectiles rebotarán contra los objetos y los límites del mapa.
 Existen zonas de lava que dañan a los personajes.
 
+
 Controles:
+
 WASD - Moverse
+
 K - Se suicida el personaje (Uso experimental)
+
 Click Izquierdo - Disparar

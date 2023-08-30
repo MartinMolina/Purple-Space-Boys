@@ -1,7 +1,7 @@
 # Purple-Space-Boys
 Hecho en C# Unity 2022.3.0f1
 
-[Descargar](https://drive.google.com/file/d/18z7KkKDUXUK-dI7eCgrFCpbalRbSjMzW/view?usp=sharing)
+[Descargar](https://drive.google.com/u/0/uc?id=18z7KkKDUXUK-dI7eCgrFCpbalRbSjMzW&export=download)
 ### Resumen
 El juego es un multijugador local por turnos, al estilo Worms, con vista top-down.
 

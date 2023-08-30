@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Wall
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Player
+  - Water
+  - UI
+  - Item
+  - Obstacle
+  - Projectile
+  - Lava
+  - Wall
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Background
+    uniqueID: 4135684741
+    locked: 0
+  - name: Ground
+    uniqueID: 307189077
+    locked: 0
+  - name: Environment
+    uniqueID: 32142195
+    locked: 0
+  - name: Items
+    uniqueID: 1019219943
+    locked: 0
+  - name: Players
+    uniqueID: 2971804731
+    locked: 0
+  - name: Projectiles
+    uniqueID: 1196932101
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 976895791
+    locked: 0

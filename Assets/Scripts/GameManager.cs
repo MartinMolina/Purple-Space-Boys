@@ -49,14 +49,14 @@ public class GameManager : MonoBehaviour
     {
         ResumeTimer();
         if (i != -1 && i < player.Count)
-            player[i].isActive = false;
+            player[i].active = false;
         i++;
         if (i >= player.Count)
         {
             i = 0;
         }
         virtualCamera.Follow = player[i].transform;
-        player[i].isActive = true;
+        player[i].active = true;
         player[i].movesLeft = player[i].movesPerTurn;
         turnTimer = turnDuration;
         OnTurnChange.Invoke(player[i].health, player[i].maxHealth, player[i].weapon, player[i].movesLeft);
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
         timerIsPaused = true;
         try
         {
-            player[i].isActive = false;
+            player[i].active = false;
         }
         catch { }
     }

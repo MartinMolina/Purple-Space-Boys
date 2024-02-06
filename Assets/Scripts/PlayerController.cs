@@ -4,11 +4,12 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : SpaceBoy
 {
     [SerializeField] public string team;
     [SerializeField] private Animator animator;
-    public bool isActive;
+    [SerializeField] private float turnDuration;
+    public bool active;
     public GameObject weapon;
     GameObject projectile;
     [SerializeField] public float maxHealth;
@@ -17,24 +18,26 @@ public class PlayerController : MonoBehaviour
     public int movesPerTurn;
     public int movesLeft;
     Vector2 aimDirection;
+    public bool timeRunning;
     private GameManager gameManager;
     public UnityAction<float, float> OnHealthChange;
     public UnityAction<GameObject> OnWeaponChange;
     public UnityAction<int> OnMovement;
+    public UnityEvent OnTurnChange = new UnityEvent();
     [SerializeField] private AudioSource deathSound;
     [SerializeField] private AudioSource healingSound;
     [SerializeField] private AudioSource weaponGrabSound;
 
     void Start()
     {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        gameManager = FindObjectOfType<GameManager>();
         health = maxHealth;
     }
 
     void Update()
     {
 
-        if (isActive)
+        if (active)
         {
             if (movesLeft > 0)
             {
@@ -87,6 +90,16 @@ public class PlayerController : MonoBehaviour
 
             }
         }
+    }
+
+    void BeginTurn()
+    {
+        active = true;
+    }
+
+    void EndTurn()
+    {
+        active = false;
     }
 
     void Move(Vector2 movement)

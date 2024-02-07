@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6052701039302621417}
   m_Layer: 6
   m_Name: Laser Pistol
-  m_TagString: Untagged
+  m_TagString: Pistol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

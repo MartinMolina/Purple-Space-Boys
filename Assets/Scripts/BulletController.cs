@@ -9,31 +9,29 @@ public class BulletController : MonoBehaviour
     [SerializeField] private GameObject impact;
     [SerializeField] private float damage;
     [SerializeField] private float speed;
-    private bool flag;
+    private bool exited;
 
     void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         body.velocity *= speed;
-        if (body.velocity.y == 0)
+        /*if (body.velocity.y == 0)
         {
             transform.position += new Vector3(0, 1, 0);
             GetComponent<BoxCollider2D>().offset = new Vector2(0, -1);
-        }
+        }*/
     }
 
     void OnCollisionExit2D(Collision2D coll)
     {
-        flag = true;
+        exited = true;
     }
 
     void OnCollisionEnter2D(Collision2D coll)
     {
-        if (flag)
+        if (exited)
         {
             Instantiate(impact, transform.position, transform.rotation);
-            coll.gameObject.GetComponent<PlayerController>()?.TakeDamage(damage);
-            gameManager.NextTurn();
             Destroy(gameObject);
         }
     }

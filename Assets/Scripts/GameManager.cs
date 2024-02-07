@@ -3,73 +3,75 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Cinemachine;
+using System.Linq;
+using System.Linq.Expressions;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
     public float turnDuration;
     public CinemachineVirtualCamera virtualCamera;
-    private List<PlayerController> player;
-    private int i;
+    private List<SpaceBoy> aliveOnes;
     public float turnTimer;
     public bool timerIsPaused;
     public UnityAction<float, float, GameObject, int> OnTurnChange;
     public UnityEvent OnGameEnd = new UnityEvent();
+    private int currentTurn = 0;
+    public float rocketDamage;
+    public float bulletDamage;
+    public float medkitHealing;
 
-
-    // Start is called before the first frame update
     void Start()
     {
-        player = new List<PlayerController>(FindObjectsOfType<PlayerController>());
-        i = -1;
+        //List all players
+        aliveOnes = new List<SpaceBoy>(FindObjectsOfType<SpaceBoy>());
+
+        //Subscribe to each player's UnityEvents
+        foreach (SpaceBoy contestant in aliveOnes)
+        {
+            contestant.OnDeath.AddListener(UpdateContestants);
+            contestant.OnTurnEnd.AddListener(NextTurn);
+        }
+
+        FirstTurn();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (!timerIsPaused)
+    }
+
+    public void UpdateContestants()
+    {
+        // Remove dead contestants from list
+        for (int i = 0; i < aliveOnes.Count; i++)
         {
-            if (turnTimer <= 0)
+            if (aliveOnes[i] == null)
             {
-                NextTurn();
+                continue;
             }
-            else
+            else if (aliveOnes[i].health == 0)
             {
-                turnTimer -= Time.deltaTime;
+                aliveOnes.RemoveAt(i);
+                i++;
             }
         }
     }
 
-    public void RemovePlayer(PlayerController playerToRemove)
+    private void FirstTurn()
     {
-        player.Remove(playerToRemove);
-        CheckPlayers();
+        virtualCamera.Follow = aliveOnes[0].transform;
+        aliveOnes[0].active = true;
     }
 
     public void NextTurn()
     {
-        ResumeTimer();
-        if (i != -1 && i < player.Count)
-            player[i].active = false;
-        i++;
-        if (i >= player.Count)
-        {
-            i = 0;
-        }
-        virtualCamera.Follow = player[i].transform;
-        player[i].active = true;
-        player[i].movesLeft = player[i].movesPerTurn;
-        turnTimer = turnDuration;
-        OnTurnChange.Invoke(player[i].health, player[i].maxHealth, player[i].weapon, player[i].movesLeft);
-    }
+        aliveOnes[currentTurn].active = false;
+        currentTurn++;
+        if (currentTurn >= aliveOnes.Count)
+            currentTurn = 0;
 
-    public void PauseTimer()
-    {
-        timerIsPaused = true;
-        try
-        {
-            player[i].active = false;
-        }
-        catch { }
+        virtualCamera.Follow = aliveOnes[currentTurn].transform;
+        aliveOnes[currentTurn].active = true;
     }
 
     public void ResumeTimer()
@@ -80,11 +82,12 @@ public class GameManager : MonoBehaviour
     void CheckPlayers()
     {
         bool onlyTeam = true;
-        foreach (PlayerController p in player)
+        foreach (SpaceBoy p in aliveOnes)
         {
-            if (p.team != player[0].team)
+            if (p.team != aliveOnes[0].team)
             {
                 onlyTeam = false;
+                continue;
             }
         }
         if (onlyTeam)
@@ -95,12 +98,9 @@ public class GameManager : MonoBehaviour
 
     void EndGame()
     {
-        PauseTimer();
-        foreach (PlayerController p in player)
+        foreach (SpaceBoy p in aliveOnes)
         {
             p.enabled = false;
         }
-        FindObjectOfType<HUDController>()?.AnnounceWinner(player[0].team);
-        OnGameEnd.Invoke();
     }
 }

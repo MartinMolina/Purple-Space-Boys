@@ -17,9 +17,9 @@ public class HUDController : UIController
         gameManager.OnTurnChange += UpdateHUD;
         foreach (PlayerController player in FindObjectsOfType<PlayerController>())
         {
-            player.OnHealthChange += UpdateHealth;
+            /*player.OnHealthChange += UpdateHealth;
             player.OnWeaponChange += UpdateWeapon;
-            player.OnMovement += UpdateMoves;
+            player.OnMovement += UpdateMoves;*/
         }
     }
 
